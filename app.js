@@ -17,7 +17,7 @@ app.use(cors({origin:'*'}));
 dotenv.config();
 
 // Vérification des variables d'environnement
-if (!process.env.DATABASE || !process.env.PORT) {
+if (!process.env.DATABASECLOUD || !process.env.PORT) {
     console.error("Les variables d'environnement DATABASECLOUD et PORT doivent être définies.");
     process.exit(1);
 }
@@ -27,7 +27,7 @@ if (!process.env.DATABASE || !process.env.PORT) {
 app.use(express.json());
 
 // Connexion à la base de données
-mongoose.connect(process.env.DATABASE)
+mongoose.connect(process.env.DATABASECLOUD)
     .then(() => {
         console.log("Connexion réussie à la base de données.");
     })
