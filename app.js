@@ -46,11 +46,8 @@ app.use('/api/scategories', scategorieRouter);
 app.use('/api/articles', articleRouter);
 //dist reactjs
 app.use(express.static(path.join(__dirname, './client/build'))); // Route pourles pages non trouvées, redirige vers index.html
-app.get('*', (req, res) => { res.sendFile(path.join(__dirname,
-'./client/build/index.html')); });
+app.get('*', (req, res) => { res.sendFile(path.join(__dirname,'./client/build/index.html')); });
 // Lancement du serveur
 app.listen(process.env.PORT)
 console.log("application executée sur le port " + process.env.PORT)
-module.exports = app;
-
 module.exports = app;
