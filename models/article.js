@@ -1,7 +1,7 @@
 const mongoose =require("mongoose")
 const Scategorie =require("./scategorie.js");
 const articleSchema=mongoose.Schema({
-      reference:{ type: String, required: true,unique:true },
+     reference:{ type: String, required: true,unique:true },
      designation:{ type: String, required: true,unique:true },
      prix:{ type: Number, required: false },
      marque:{ type: String, required: true },

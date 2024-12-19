@@ -1,28 +1,56 @@
-const express=require('express');
-const mongoose =require("mongoose")
-const dotenv =require('dotenv')
-const cors = require('cors')
-const categorieRouter =require("./routes/categories.route")
-const scategorieRouter =require("./routes/scategories.route")
-const articleRouter =require("./routes/article.route")
-const app = express();
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const path = require('path'); // Ajout de l'importation de path
 
-//config dotenv
-dotenv.config()
-//Les cors
-app.use(cors())
-//BodyParser Middleware
+// Importation des routes
+const categorieRouter = require('./routes/categories.route');
+const scategorieRouter = require('./routes/scategories.route');
+const articleRouter = require('./routes/article.route');
+
+// Initialisation de l'application
+const app = express();
+// Middleware CORS
+app.use(cors({origin:'*'}));
+// Configuration dotenv
+dotenv.config();
+
+// Vérification des variables d'environnement
+if (!process.env.DATABASE || !process.env.PORT) {
+    console.error("Les variables d'environnement DATABASECLOUD et PORT doivent être définies.");
+    process.exit(1);
+}
+
+
+// Middleware pour parser le corps des requêtes en JSON
 app.use(express.json());
-// Connexion à la base données
-mongoose.connect(process.env.DATABASECLOUD)
-.then(() => {console.log("DataBase Successfully Connected");})
-.catch(err => { console.log("Unable to connect to database", err);
-process.exit(); });
-// requête
-app.get("/",(req,res)=>{res.send("bonjour");
-});
+
+// Connexion à la base de données
+mongoose.connect(process.env.DATABASE)
+    .then(() => {
+        console.log("Connexion réussie à la base de données.");
+    })
+    .catch(err => {
+        console.error("Erreur lors de la connexion à la base de données :", err);
+        process.exit(1);
+    });
+
+// Définition des routes
+//app.get("/", (req, res) => {
+    //res.send("Page d'accueil");
+//});
+
 app.use('/api/categories', categorieRouter);
 app.use('/api/scategories', scategorieRouter);
 app.use('/api/articles', articleRouter);
-app.listen(process.env.PORT, () => {console.log(`Server is listening on port ${process.env.PORT}`); });
+//dist reactjs
+app.use(express.static(path.join(__dirname, './client/build'))); // Route pourles pages non trouvées, redirige vers index.html
+app.get('*', (req, res) => { res.sendFile(path.join(__dirname,
+'./client/build/index.html')); });
+// Lancement du serveur
+app.listen(process.env.PORT)
+console.log("application executée sur le port " + process.env.PORT)
+module.exports = app;
+
 module.exports = app;
