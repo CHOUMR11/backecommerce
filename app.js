@@ -14,7 +14,9 @@ const articleRouter = require('./routes/article.route');
 
 
 // Middleware CORS
-app.use(cors());
+app.use(cors({
+    origin:'*'
+    }))
 // Configuration dotenv
 dotenv.config();
 
