@@ -4,15 +4,17 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path'); // Ajout de l'importation de path
 
+// Initialisation de l'application
+const app = express();
+
 // Importation des routes
 const categorieRouter = require('./routes/categories.route');
 const scategorieRouter = require('./routes/scategories.route');
 const articleRouter = require('./routes/article.route');
 
-// Initialisation de l'application
-const app = express();
+
 // Middleware CORS
-app.use(cors({origin:'*'}));
+app.use(cors());
 // Configuration dotenv
 dotenv.config();
 
@@ -37,18 +39,19 @@ mongoose.connect(process.env.DATABASECLOUD)
     });
 
 // Définition des routes
-//app.get("/", (req, res) => {
-   // res.send("Page d'accueil");
-//});
+app.get("/", (req, res) => {
+   res.send("Page d'accueil");
+});
 
+app.use('/api/categories', categorieRouter);
+app.use('/api/scategories', scategorieRouter);
+app.use('/api/articles', articleRouter);
 
 //dist reactjs
 app.use(express.static(path.join(__dirname, './client/build'))); // Route pourles pages non trouvées, redirige vers index.html
 app.get('*', (req, res) => { res.sendFile(path.join(__dirname,'./client/build/index.html')); });
 
-app.use('/api/categories', categorieRouter);
-app.use('/api/scategories', scategorieRouter);
-app.use('/api/articles', articleRouter);
+
 // Lancement du serveur
 app.listen(process.env.PORT)
 console.log("application executée sur le port " + process.env.PORT)
