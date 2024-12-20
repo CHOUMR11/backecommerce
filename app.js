@@ -41,12 +41,14 @@ mongoose.connect(process.env.DATABASECLOUD)
    // res.send("Page d'accueil");
 //});
 
-app.use('/api/categories', categorieRouter);
-app.use('/api/scategories', scategorieRouter);
-app.use('/api/articles', articleRouter);
+
 //dist reactjs
 app.use(express.static(path.join(__dirname, './client/build'))); // Route pourles pages non trouvées, redirige vers index.html
 app.get('*', (req, res) => { res.sendFile(path.join(__dirname,'./client/build/index.html')); });
+
+app.use('/api/categories', categorieRouter);
+app.use('/api/scategories', scategorieRouter);
+app.use('/api/articles', articleRouter);
 // Lancement du serveur
 app.listen(process.env.PORT)
 console.log("application executée sur le port " + process.env.PORT)
