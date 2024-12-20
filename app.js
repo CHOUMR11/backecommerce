@@ -39,9 +39,9 @@ mongoose.connect(process.env.DATABASECLOUD)
     });
 
 // Définition des routes
-app.get("/", (req, res) => {
-   res.send("Page d'accueil");
-});
+//app.get("/", (req, res) => {
+   //res.send("Page d'accueil");
+//});
 
 app.use('/api/categories', categorieRouter);
 app.use('/api/scategories', scategorieRouter);
